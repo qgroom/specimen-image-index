@@ -11,7 +11,6 @@
 
 source env.sh
 
-PROV_SHA256=$(echo "$PROV_ID" | grep -o -P '[a-f0-9]{64}$')
 PROV_VERSIONS="content.tsv"
 # A. create narrow dwca datasets
 # 1. pick a preston snapshot 
@@ -56,4 +55,4 @@ cat ${VERSIONS_WITH_STILL_IMAGES}\
   | cut -f1\
   | parallel '/bin/bash has-specimen.sh {1}'\
   | append_namespace\
-  > ${PROV_SHA256}-with-still-images-and-specimen.tsv
+  > content-with-still-images-and-specimen.tsv
