@@ -34,17 +34,17 @@ function stream_dwc {
 generate_versions > ${PROV_VERSIONS}
 
 VERSIONS_WITH_STILL_IMAGES="${PROV_SHA256}-with-still-images.txt"
-VERSIONS_WITH_TYPES="${PROV_SHA256}-with-types.txt"
+VERSIONS_WITH_TYPES="${PROV_SHA256}-with-multimedia.txt"
 
 
 echo selecting dwc content with types
 cat "${PROV_VERSIONS}"\
-  | parallel '/bin/bash has-type.sh {1}'\
+  | parallel '/bin/bash has-multimedia.sh {1}'\
   > "${VERSIONS_WITH_TYPES}"
 
 echo selecting dwc content with still images
 cat "${VERSIONS_WITH_TYPES}"\
-  | parallel '/bin/bash has-image.sh {1}'\
+  | parallel '/bin/bash has-still-image.sh {1}'\
   > "${VERSIONS_WITH_STILL_IMAGES}"
 
 echo selecting dwc content with preserved specimen

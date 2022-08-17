@@ -5,7 +5,7 @@
 source env.sh
 
 preston cat --data-dir "${DATA_DIR}" "zip:$1!/meta.xml"\
- | grep "http://purl.org/dc/terms/type"\
+ | grep "[Aa]ccessURI"\
  > /dev/null
 
  if [ $? -eq 0 ] 
