@@ -11,9 +11,6 @@ set -xe
 
 source env.sh
 
-DATA_DIR=/media/jorrit/tamias/preston/preston-archive/data/
-
-PROV_ID=hash://sha256/da7450941e7179c973a2fe1127718541bca6ccafe0e4e2bfb7f7ca9dbb7adb86
 PROV_SHA256=$(echo "$PROV_ID" | grep -o -P '[a-f0-9]{64}$')
 PROV_VERSIONS="${PROV_SHA256}-versions.nq"
 # A. create narrow dwca datasets
