@@ -12,6 +12,7 @@
 source env.sh
 
 PROV_VERSIONS="content.tsv"
+PARALLEL_OPTS="--line-buffer"
 # A. create narrow dwca datasets
 # 1. pick a preston snapshot 
 
@@ -39,20 +40,20 @@ VERSIONS_WITH_TYPES="content-with-multimedia.tsv"
 echo selecting dwc content with types
 cat "${PROV_VERSIONS}"\
   | cut -f1\
-  | parallel '/bin/bash has-multimedia.sh {1}'\
+  | parallel ${PARALLEL_OPTS} '/bin/bash has-multimedia.sh {1}'\
   | append_namespace\
   > "${VERSIONS_WITH_TYPES}"
 
 echo selecting dwc content with still images
 cat "${VERSIONS_WITH_TYPES}"\
   | cut -f1\
-  | parallel '/bin/bash has-still-image.sh {1}'\
+  | parallel ${PARALLEL_OPTS} '/bin/bash has-still-image.sh {1}'\
   | append_namespace\
   > "${VERSIONS_WITH_STILL_IMAGES}"
 
 echo selecting dwc content with preserved specimen
 cat ${VERSIONS_WITH_STILL_IMAGES}\
   | cut -f1\
-  | parallel '/bin/bash has-specimen.sh {1}'\
+  | parallel ${PARALLEL_OPT} '/bin/bash has-specimen.sh {1}'\
   | append_namespace\
   > content-with-still-images-and-specimen.tsv
