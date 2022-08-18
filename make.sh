@@ -19,8 +19,18 @@ PROV_VERSIONS="content_${PROV_ID_SHORT}.tsv"
 # 1. pick a preston snapshot 
 
 
+function find_prov_date {
+  preston cat --data-dir "${DATA_DIR}" "${PROV_ID}"\
+  | grep "http://www.w3.org/ns/prov#startedAtTime"\
+  | head -n1\
+  | grep -o -E "20[0-9]{2}-[0-9]{2}-[0-9]{2}T"\
+  | cut -b1-10
+}
+
+PROV_DATE=$(find_prov_date)
+
 function append_namespace {
-  sed "s+$+\t$PROV_ID_SHORT+g"
+  sed "s+$+\t$PROV_ID_SHORT\t$PROV_DATE+g"
 }
 
 function generate_versions {
@@ -69,8 +79,9 @@ cat content-with-still-images-and-specimen.tsv\
 
 echo aligning names
 cat content-name-image_${PROV_ID_SHORT}.tsv\
+  | head\
   | nomer replace gbif-parse\
-  | nomer append col\
+  | nomer append globalnames\
   | grep -o -E "(Insecta|Mammalia|Plantae)"\
   | append_namespace\
   > plantae_insecta_or_mammalia_image_${PROV_ID_SHORT}.tsv
