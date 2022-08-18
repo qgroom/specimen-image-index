@@ -9,11 +9,13 @@ Instead of relying on dynamic search indeces, we aim to show building blocks to 
 
 In short: 
 
+```
 corpus version 
 +
 question
 = 
 answer
+```
 
 The answer is contained in file named ```plantae_insecta_or_mammalia_image_[...].tsv``` that looks like:
 
