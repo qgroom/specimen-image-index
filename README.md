@@ -35,6 +35,7 @@ Insecta	251f	2021-07-01
 
 Where each row represents a record of a preserved specimen with at least one image. The first column indicates the taxonomic context of the records and contains either Insecta, Mammalia, or Plantae. The second column contains the first four characters of the version id (or content id) of the Preston archive version. The third column is the start date at which the version, or snapshot, was generated.
 
+    You should be able to copy-paste the examples into a linux terminal (or equivalent). The examples assume knowledge of the linux command-line and that you installed [Preston](https://github.com/bio-guoda/preston), [jq](https://stedolan.github.io/jq/), and [mlr](https://github.com/johnkerl/miller).
 # Step-by-step
 
 At time of writing, the [```make.sh```](./make.sh) uses a couple of basic techniques: versioning, streaming records, and processing records. The text below outlines these building blocks. Hopefully, these should give you some context and copy-paste examples to help better understand what the [```make.sh```](./make.sh) script does. The design of the script was inspired by the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). If you have any questions, please open [an issue](../../issues/new). 
