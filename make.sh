@@ -11,6 +11,8 @@
 
 source env.sh
 
+PROV_ID=${1:-${PROV_ID}}
+
 PARALLEL_OPTS="--line-buffer"
 PROV_ID_SHORT=$(echo $PROV_ID | cut -b15-18)
 
