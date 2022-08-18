@@ -26,8 +26,10 @@ LAST_ROW=$(preston history --data-dir="${DATA_DIR}"\
 
 # range in between
 preston history -l tsv --data-dir "${DATA_DIR}"\
+ | cut -f1\
  | tail -n+${FIRST_ROW}\
  | head -n${LAST_ROW}\
+ | shuf -n3\
  >> prov-ids.txt
   
 
