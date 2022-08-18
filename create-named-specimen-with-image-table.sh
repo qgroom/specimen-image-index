@@ -7,7 +7,7 @@ source env.sh
 SPECIMEN_FILE=$(mktemp)
 IMAGES_FILE=$(mktemp)
 
-set -xe
+#set -xe
 
 echo "$1"\
   | sed 's+^+<foo:bar> <http://purl.org/pav/hasVersion> <+g'\
