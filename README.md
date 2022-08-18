@@ -37,7 +37,7 @@ Where each row represents a record of a preserved specimen with at least one ima
 
 # Step-by-step
 
-At time of writing, the ```make.sh``` consist of the following steps:
+At time of writing, the [```make.sh```](./make.sh) uses a couple of basic techniques: versioning, streaming records, and processing records. The text below outlines these building blocks. Hopefully, these should give you some context and copy-paste examples to help better understand what the [```make.sh```](./make.sh) script does. The design of the script was inspired by the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). If you have any questions, please open [an issue](../../issues/new). 
 
 ## pick a snapshot
 
