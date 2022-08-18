@@ -79,9 +79,8 @@ cat content-with-still-images-and-specimen.tsv\
 
 echo aligning names
 cat content-name-image_${PROV_ID_SHORT}.tsv\
-  | head\
   | nomer replace gbif-parse\
-  | nomer append globalnames\
+  | nomer append col\
   | grep -o -E "(Insecta|Mammalia|Plantae)"\
   | append_namespace\
   > plantae_insecta_or_mammalia_image_${PROV_ID_SHORT}.tsv
