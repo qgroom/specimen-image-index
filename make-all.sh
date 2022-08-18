@@ -31,7 +31,9 @@ preston history -l tsv --data-dir "${DATA_DIR}"\
  | head -n${LAST_ROW}\
  | shuf -n3\
  >> prov-ids.txt
-  
+ 
+echo processing prov ids 
+cat prov-ids.txt
 
- # cat prov-ids.txt\
- # | xargs -L1 bash make.sh 
+cat prov-ids.txt\
+  | xargs -L1 bash make.sh 

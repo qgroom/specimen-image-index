@@ -81,7 +81,7 @@ cat ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}\
   > content-name-image_${PROV_ID_SHORT}.tsv
 
 # clean local preston data dir to avoid overflow
-# rm -rf data/
+rm -rf data/
 
 echo aligning names
 cat content-name-image_${PROV_ID_SHORT}.tsv\
