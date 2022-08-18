@@ -48,6 +48,7 @@ function generate_versions {
 generate_versions > ${PROV_VERSIONS}
 
 VERSIONS_WITH_STILL_IMAGES="content-with-still-images_${PROV_ID_SHORT}.tsv"
+VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN="content-with-still-images-and-specimen_${PROV_ID_SHORT}.tsv"
 VERSIONS_WITH_TYPES="content-with-multimedia_${PROV_ID_SHORT}.tsv"
 
 
@@ -70,10 +71,10 @@ cat ${VERSIONS_WITH_STILL_IMAGES}\
   | cut -f1\
   | parallel ${PARALLEL_OPT} '/bin/bash has-specimen.sh {1}'\
   | append_namespace\
-  > content-with-still-images-and-specimen.tsv
+  > ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}
 
 echo joining named specimen with images 
-cat content-with-still-images-and-specimen.tsv\
+cat ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}\
   | cut -f1\
   | parallel ${PARALLEL_OPT} '/bin/bash create-named-specimen-with-image-table.sh {1}'\
   | append_namespace\
