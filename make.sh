@@ -11,14 +11,16 @@
 
 source env.sh
 
-PROV_VERSIONS="content.tsv"
 PARALLEL_OPTS="--line-buffer"
+PROV_ID_SHORT=$(echo $PROV_ID | cut -b15-18)
+
+PROV_VERSIONS="content_${PROV_ID_SHORT}.tsv"
 # A. create narrow dwca datasets
 # 1. pick a preston snapshot 
 
 
 function append_namespace {
-  sed "s+$+\t$(echo $PROV_ID | cut -b15-18)+g"
+  sed "s+$+\t$PROV_ID_SHORT+g"
 }
 
 function generate_versions {
@@ -33,8 +35,8 @@ function generate_versions {
 
 generate_versions > ${PROV_VERSIONS}
 
-VERSIONS_WITH_STILL_IMAGES="content-with-still-images.tsv"
-VERSIONS_WITH_TYPES="content-with-multimedia.tsv"
+VERSIONS_WITH_STILL_IMAGES="content-with-still-images_${PROV_ID_SHORT}.tsv"
+VERSIONS_WITH_TYPES="content-with-multimedia_${PROV_ID_SHORT}.tsv"
 
 
 echo selecting dwc content with types
@@ -58,18 +60,18 @@ cat ${VERSIONS_WITH_STILL_IMAGES}\
   | append_namespace\
   > content-with-still-images-and-specimen.tsv
 
-echo joining named specimen with images
+echo joining named specimen with images 
 cat content-with-still-images-and-specimen.tsv\
   | cut -f1\
   | parallel ${PARALLEL_OPT} '/bin/bash create-named-specimen-with-image-table.sh {1}'\
   | append_namespace\
-  > content-name-image.tsv
+  > content-name-image_${PROV_ID_SHORT}.tsv
 
 echo aligning names
-cat content-name-image.tsv\
+cat content-name-image_${PROV_ID_SHORT}.tsv\
   | nomer replace gbif-parse\
   | nomer append col\
   | grep -o -E "(Insecta|Mammalia|Plantae)"\
   | append_namespace\
-  >> plantae_insecta_or_mammalia_image.tsv
+  > plantae_insecta_or_mammalia_image_${PROV_ID_SHORT}.tsv
 
