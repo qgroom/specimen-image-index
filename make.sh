@@ -18,7 +18,7 @@ PARALLEL_OPTS="--line-buffer"
 
 
 function append_namespace {
-  sed "s+$+\t${PROV_ID}+g"
+  sed "s+$+\t$(echo $PROV_ID | cut -b15-18)+g"
 }
 
 function generate_versions {
@@ -57,3 +57,19 @@ cat ${VERSIONS_WITH_STILL_IMAGES}\
   | parallel ${PARALLEL_OPT} '/bin/bash has-specimen.sh {1}'\
   | append_namespace\
   > content-with-still-images-and-specimen.tsv
+
+echo joining named specimen with images
+cat content-with-still-images-and-specimen.tsv\
+  | cut -f1\
+  | parallel ${PARALLEL_OPT} '/bin/bash create-named-specimen-with-image-table.sh {1}'\
+  | append_namespace\
+  > content-name-image.tsv
+
+echo aligning names
+cat content-name-image.tsv\
+  | nomer replace gbif-parse\
+  | nomer append col\
+  | grep -o -E "(Insecta|Mammalia|Plantae)"\
+  | append_namespace\
+  >> plantae_insecta_or_mammalia_image.tsv
+
