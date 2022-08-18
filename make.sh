@@ -80,6 +80,9 @@ cat ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}\
   | append_namespace\
   > content-name-image_${PROV_ID_SHORT}.tsv
 
+# clean local preston data dir to avoid overflow
+# rm -rf data/
+
 echo aligning names
 cat content-name-image_${PROV_ID_SHORT}.tsv\
   | nomer replace gbif-parse\
