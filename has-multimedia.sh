@@ -5,7 +5,7 @@
 source env.sh
 
 preston cat --data-dir "${DATA_DIR}" "zip:$1!/meta.xml"\
- | grep "[Aa]ccessURI"\
+ | grep -E "[Aa]ccessURI|http://rs.gbif.org/terms/1.0/Multimedia"\
  > /dev/null
 
  if [ $? -eq 0 ] 
