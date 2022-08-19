@@ -1,7 +1,7 @@
 # specimen-image-index
 scripts to help index images of specimen in versioned snapshots of digital catalogs of natural history collections around the world.
 
-## background
+## Background
 
 Natural History Collections keep physical specimen of organisms. Some of these collections provide digital catalogs. These digital catalogs may be registered with, and tracked by, digital registries like GBIF, iDigBio, and BioCASe. To assist in discovery of catalog records, these registries typically offer search indexes and download services through internet accessible web pages and web apis. As the digital catalog update, and their changes propagate to the registries, search results are expected to change over time. So, a search for mouse records (_Mus musculus_) may yield different results depending on the time the query was done.
 
@@ -40,7 +40,7 @@ Where each row represents a record of a preserved specimen with at least one ima
 
 At time of writing, the [```make.sh```](./make.sh) uses a couple of basic techniques: versioning, streaming records, and processing records. The text below outlines these building blocks. Hopefully, these should give you some context and copy-paste examples to help better understand what the [```make.sh```](./make.sh) script does. The design of the script was inspired by the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). If you have any questions, please open [an issue](../../issues/new). 
 
-## pick a snapshot
+## Pick a Snapshot
 
 Preston archives consist of a list of versioned snapshots. You can get a list this snapshots by running:
 
@@ -74,11 +74,13 @@ produced:
 
 which is RDF speak for indicating that something, or more specifically ```urn:uuid:d0990404-5670-4cfa-8d6b-43faadeec93e```, was started at 2022-07-01T18:28:22.172Z, or on 1 July 2022. 
 
+## Stream Darwin Core Records
+
 Now that we have a snapshot version, we can stream all the darwin core records referenced in the snapshot (maybe billions) as JSON objects by piping (using ```|```) the output of the snapshot description into ```preston dwc-stream```:
 
 ```
 preston cat --remote https://linker.bio hash://sha256/da7450941e7179c973a2fe1127718541bca6ccafe0e4e2bfb7f7ca9dbb7adb86\
-| preston dwc-stream
+| preston dwc-stream --remote https://linker.bio
 ```
 
 For sake of simplicity, we'll only show the first record (try it!) and make it print pretty using ```jq```, a command-line program specializing in JSON processing:
@@ -86,7 +88,7 @@ For sake of simplicity, we'll only show the first record (try it!) and make it p
 
 ```
 preston cat --remote https://linker.bio hash://sha256/da7450941e7179c973a2fe1127718541bca6ccafe0e4e2bfb7f7ca9dbb7adb86\
-| preston dwc-stream\
+| preston dwc-stream --remote https://linker.bio\
 | head -n1\
 | jq . 
 ```
@@ -134,6 +136,8 @@ There's hundreds of millions of objects similar to these.
 
 Instead of printing every one of them and reading them manually, you can also use ```jq``` to extract information. 
 
+## Processing Darwin Core Records
+
 For instance, to retrieve the scientific name of the first record, you can ask:
 
 ```
@@ -151,11 +155,13 @@ this yields the answer:
 
 "Arctosa insignita is a species of spiders in the family wolf spiders."  According to https://eol.org/pages/1196719 acccessed at 2022-08-18, "Arctosa insignita is a species of spiders in the family wolf spiders."  
 
+## Record Origin / Provenance
+
 Another question you can ask is: where did this record come from? by:
 
 ```
 preston cat --remote https://linker.bio hash://sha256/da7450941e7179c973a2fe1127718541bca6ccafe0e4e2bfb7f7ca9dbb7adb86\
-| preston dwc-stream\
+| preston dwc-stream --remote https://linker.bio\
 | head -n1\
 | jq '.["http://www.w3.org/ns/prov#wasDerivedFrom"]'
 ```
@@ -180,6 +186,8 @@ which produces:
 urn:AU-Bioscience:GreenlandGodthåbsfjordMacroArthropods2013:00032	https://creativecommons.org/licenses/by/4.0/	AU-Bioscience	Godthåbsfjord2013	PreservedSpecimen	urn:AU-Bioscience:GreenlandGodthåbsfjordMacroArthropods2013:00032		Rikke Reisner Hansen	2	Individuals	Voucher in collection at NHMA, Denmark			2013-06-29	2013-06-29/2013-07-23	Heath	Greenland	Kommuneqarfik Sermersooq	Godthåbsfjord	Site: 2, Plot: heath4	64.48416	-51.506501	WGS84	10	Rikke Reisner Hansen	Arctosa insignita (Thorell, 1872)	Animalia	Arthropoda	Arachnida	Aranea	Lycosidae
 ```
 
+## Stream Transforming Original Tabular Data
+
 It appears that this is a line from a tab-separated file. Print the header of this file, along with the record row above, into a file test.tsv by running:
 
 ```
@@ -198,6 +206,8 @@ preston cat --remote https://linker.bio 'line:zip:hash://sha256/dcbdd3158ba0e17b
 | urn:AU-Bioscience:GreenlandGodthåbsfjordMacroArthropods2013:00032 | https://creativecommons.org/licenses/by/4.0/ | AU-Bioscience | Godthåbsfjord2013 | PreservedSpecimen | urn:AU-Bioscience:GreenlandGodthåbsfjordMacroArthropods2013:00032 |  | Rikke Reisner Hansen | 2 | Individuals | Voucher in collection at NHMA, Denmark |  |  | 2013-06-29 | 2013-06-29/2013-07-23 | Heath | Greenland | Kommuneqarfik Sermersooq | Godthåbsfjord | Site: 2, Plot: heath4 | 64.48416 | -51.506501 | WGS84 | 10 | Rikke Reisner Hansen | Arctosa insignita (Thorell, 1872) | Animalia | Arthropoda | Arachnida | Aranea | Lycosidae |
 
 By now, you have seen the basics of processing biodiversity dataset files using versioned snapshots using Preston, jq, and mlr. 
+
+## Answering a More Complicated Question
 
 These techniques were applied to create [```make.sh```](./make.sh). 
 
