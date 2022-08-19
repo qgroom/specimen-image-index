@@ -40,6 +40,8 @@ Where each row represents a record of a preserved specimen with at least one ima
 
 At time of writing, the [```make.sh```](./make.sh) uses a couple of basic techniques: versioning, streaming records, and processing records. The text below outlines these building blocks. Hopefully, these should give you some context and copy-paste examples to help better understand what the [```make.sh```](./make.sh) script does. The design of the script was inspired by the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). If you have any questions, please open [an issue](../../issues/new). 
 
+☝️ you should be able to copy the multi-line examples below straight into your terminal window.  
+
 ## Pick a Snapshot
 
 Preston archives consist of a list of versioned snapshots. You can get a list this snapshots by running:
@@ -153,7 +155,7 @@ this yields the answer:
 "Arctosa insignita (Thorell, 1872)"
 ```
 
-"Arctosa insignita is a species of spiders in the family wolf spiders."  According to https://eol.org/pages/1196719 acccessed at 2022-08-18, "Arctosa insignita is a species of spiders in the family wolf spiders."  
+According to https://eol.org/pages/1196719 acccessed at 2022-08-18, "Arctosa insignita is a species of spiders in the family wolf spiders."  
 
 ## Trace Record Origin
 
