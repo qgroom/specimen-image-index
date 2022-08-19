@@ -35,7 +35,8 @@ Insecta	251f	2021-07-01
 
 Where each row represents a record of a preserved specimen with at least one image. The first column indicates the taxonomic context of the records and contains either Insecta, Mammalia, or Plantae. The second column contains the first four characters of the version id (or content id) of the Preston archive version. The third column is the start date at which the version, or snapshot, was generated.
 
-    You should be able to copy-paste the examples into a linux terminal (or equivalent). The examples assume knowledge of the linux command-line and that you installed [Preston](https://github.com/bio-guoda/preston), [jq](https://stedolan.github.io/jq/), and [mlr](https://github.com/johnkerl/miller).
+    You should be able to copy-paste the examples into a linux terminal (or equivalent). The examples assume knowledge of the linux command-line and that you installed [Preston](https://github.com/bio-guoda/preston), [jq](https://stedolan.github.io/jq/), [GNU parallel](https://www.gnu.org/software/parallel/), and [mlr](https://github.com/johnkerl/miller).
+
 # Step-by-step
 
 At time of writing, the [```make.sh```](./make.sh) uses two main techniques: versioning and stream processing. Versioning helps to be specific on what _exactly_ you are (intending) to process. Stream processing performs transformations on a sequence of small chunks of data. This kind of processing in small chunks allows for handling large datasets because you only keep small bits in memory at the time. And, you can stop whenever you had enough without too much trouble. Think of a river of data and catching fish as they swim by (stream processing) vs having to build an aquarium to put all the fish in and then start fishing (batch processing). 
