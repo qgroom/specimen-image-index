@@ -155,7 +155,7 @@ this yields the answer:
 
 "Arctosa insignita is a species of spiders in the family wolf spiders."  According to https://eol.org/pages/1196719 acccessed at 2022-08-18, "Arctosa insignita is a species of spiders in the family wolf spiders."  
 
-## Record Origin / Provenance
+## Trace Record Origin
 
 Another question you can ask is: where did this record come from? by:
 
@@ -186,7 +186,7 @@ which produces:
 urn:AU-Bioscience:GreenlandGodthåbsfjordMacroArthropods2013:00032	https://creativecommons.org/licenses/by/4.0/	AU-Bioscience	Godthåbsfjord2013	PreservedSpecimen	urn:AU-Bioscience:GreenlandGodthåbsfjordMacroArthropods2013:00032		Rikke Reisner Hansen	2	Individuals	Voucher in collection at NHMA, Denmark			2013-06-29	2013-06-29/2013-07-23	Heath	Greenland	Kommuneqarfik Sermersooq	Godthåbsfjord	Site: 2, Plot: heath4	64.48416	-51.506501	WGS84	10	Rikke Reisner Hansen	Arctosa insignita (Thorell, 1872)	Animalia	Arthropoda	Arachnida	Aranea	Lycosidae
 ```
 
-## Stream Transforming Original Tabular Data
+## Transform Tabular Source Data
 
 It appears that this is a line from a tab-separated file. Print the header of this file, along with the record row above, into a file test.tsv by running:
 
@@ -207,7 +207,7 @@ preston cat --remote https://linker.bio 'line:zip:hash://sha256/dcbdd3158ba0e17b
 
 By now, you have seen the basics of processing biodiversity dataset files using versioned snapshots using Preston, jq, and mlr. 
 
-## Answering a More Complicated Question
+## Answer a More Complicated Question
 
 These techniques were applied to create [```make.sh```](./make.sh). 
 
