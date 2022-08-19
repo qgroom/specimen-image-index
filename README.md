@@ -38,9 +38,13 @@ Where each row represents a record of a preserved specimen with at least one ima
     You should be able to copy-paste the examples into a linux terminal (or equivalent). The examples assume knowledge of the linux command-line and that you installed [Preston](https://github.com/bio-guoda/preston), [jq](https://stedolan.github.io/jq/), and [mlr](https://github.com/johnkerl/miller).
 # Step-by-step
 
-At time of writing, the [```make.sh```](./make.sh) uses a couple of basic techniques: versioning, streaming records, and processing records. The text below outlines these building blocks. Hopefully, these should give you some context and copy-paste examples to help better understand what the [```make.sh```](./make.sh) script does. The design of the script was inspired by the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). If you have any questions, please open [an issue](../../issues/new). 
+At time of writing, the [```make.sh```](./make.sh) uses two main techniques: versioning and stream processing. Versioning helps to be specific on what _exactly_ you are (intending) to process. Stream processing performs transformations on a sequence of small chunks of data. This kind of processing in small chunks allows for handling large datasets because you only keep small bits in memory at the time. Think of a river of data and catching fish as they swim by (stream processing) vs having to build an aquarium to put all the fish in and then start fishing (batch processing). 
 
-☝️ you should be able to copy the multi-line examples below straight into your terminal window.  
+The text below outlines these building blocks. Hopefully, these should give you some context and copy-paste examples to help better understand what the [```make.sh```](./make.sh) script does. The design of the script was inspired by the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). 
+
+If you have any questions, please open [an issue](../../issues/new). 
+
+☝️ You should be able to copy the multi-line examples below straight into your terminal window.  
 
 ## Pick a Snapshot
 
