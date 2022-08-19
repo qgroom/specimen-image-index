@@ -54,7 +54,7 @@ Preston archives consist of a list of versioned snapshots. You can get a list th
 preston history --remote https://linker.bio 
 ```
 
-or find any other biodiversity data snapshot available (see https://github.com/bio-guoda/preston#data-publications for inspiration). For instance, you can download the archive.zip from https://github.com/bio-guoda/preston#data-publications instead. 
+or find any other biodiversity data snapshot available (see https://github.com/bio-guoda/preston#data-publications for inspiration). 
 
 In our case, the last 2 lines of ```preston history --remote https://linker.bio``` produced:
 
