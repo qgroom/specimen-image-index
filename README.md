@@ -69,7 +69,8 @@ and documents snapshot version ```hash://sha256/da7450941e7179c973a2fe1127718541
 Inspecting the snapshot version using:
 
 ```
-preston cat --remote https://linker.bio hash://sha256/da7450941e7179c973a2fe1127718541bca6ccafe0e4e2bfb7f7ca9dbb7adb86 | grep startedAt 
+preston cat --remote https://linker.bio hash://sha256/da7450941e7179c973a2fe1127718541bca6ccafe0e4e2bfb7f7ca9dbb7adb86\
+| grep startedAt 
 ```
 
 produced:
