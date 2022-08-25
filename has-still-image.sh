@@ -10,12 +10,7 @@
 
 source env.sh
 
-echo "$1"\
- | sed 's+^+<foo:bar> <http://purl.org/pav/hasVersion> <+g'\
- | sed 's+$+> .+g'\
- | preston dwc-stream --remote "file://${DATA_DIR}"\
- | jq --compact-output 'select(.["http://purl.org/dc/terms/type"] or .["http://purl.org/dc/elements/1.1/type"])'\
- | grep StillImage\
+/bin/bash extract-still-image-records.sh {1}\
  | jq --raw-output '.["http://www.w3.org/ns/prov#wasDerivedFrom"]'\
  | grep -o -P "hash://sha256/[a-f0-9]{64}"\
  | head -n1
