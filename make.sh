@@ -70,8 +70,8 @@ function select_still_images {
 }
 
 function select_preserved_specimen {
-  cat ${VERSIONS_WITH_STILL_IMAGES}\
   echo selecting dwc content with preserved specimen
+  cat ${VERSIONS_WITH_STILL_IMAGES}\
   | cut -f1\
   | parallel ${PARALLEL_OPT} '/bin/bash has-specimen.sh {1}'\
   | append_namespace\
