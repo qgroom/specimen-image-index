@@ -45,49 +45,67 @@ function generate_versions {
   | append_namespace
 }
 
-generate_versions > ${PROV_VERSIONS}
 
 VERSIONS_WITH_STILL_IMAGES="content-with-still-images_${PROV_ID_SHORT}.tsv"
 VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN="content-with-still-images-and-specimen_${PROV_ID_SHORT}.tsv"
 VERSIONS_WITH_TYPES="content-with-multimedia_${PROV_ID_SHORT}.tsv"
 
 
-echo selecting dwc content with types
-cat "${PROV_VERSIONS}"\
-  | cut -f1\
-  | parallel ${PARALLEL_OPTS} '/bin/bash has-multimedia.sh {1}'\
-  | append_namespace\
-  > "${VERSIONS_WITH_TYPES}"
+function select_multimedia { 
+  echo selecting dwc content with types
+  cat "${PROV_VERSIONS}"\
+    | cut -f1\
+    | parallel ${PARALLEL_OPTS} '/bin/bash has-multimedia.sh {1}'\
+    | append_namespace\
+    > "${VERSIONS_WITH_TYPES}"
+}
 
-echo selecting dwc content with still images
-cat "${VERSIONS_WITH_TYPES}"\
-  | cut -f1\
-  | parallel ${PARALLEL_OPTS} '/bin/bash has-still-image.sh {1}'\
-  | append_namespace\
-  > "${VERSIONS_WITH_STILL_IMAGES}"
+function select_still_images {
+  echo selecting dwc content with still images
+  cat "${VERSIONS_WITH_TYPES}"\
+    | cut -f1\
+    | parallel ${PARALLEL_OPTS} '/bin/bash has-still-image.sh {1}'\
+    | append_namespace\
+    > "${VERSIONS_WITH_STILL_IMAGES}"
+}
 
-echo selecting dwc content with preserved specimen
-cat ${VERSIONS_WITH_STILL_IMAGES}\
+function select_preserved_specimen {
+  cat ${VERSIONS_WITH_STILL_IMAGES}\
+  echo selecting dwc content with preserved specimen
   | cut -f1\
   | parallel ${PARALLEL_OPT} '/bin/bash has-specimen.sh {1}'\
   | append_namespace\
   > ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}
+}
 
-echo joining named specimen with images 
-cat ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}\
-  | cut -f1\
-  | parallel ${PARALLEL_OPT} '/bin/bash create-named-specimen-with-image-table.sh {1}'\
-  | append_namespace\
-  > content-name-image_${PROV_ID_SHORT}.tsv
+function extract_names_for_images {
+  echo joining named specimen with images 
+  cat ${VERSIONS_WITH_STILL_IMAGES_AND_SPECIMEN}\
+    | cut -f1\
+    | parallel ${PARALLEL_OPT} '/bin/bash create-named-specimen-with-image-table.sh {1}'\
+    | append_namespace\
+    | gzip\
+    > content-name-image_${PROV_ID_SHORT}.tsv.gz
+}
 
 # clean local preston data dir to avoid overflow
 rm -rf data/
 
-echo aligning names
-cat content-name-image_${PROV_ID_SHORT}.tsv\
-  | nomer replace gbif-parse\
-  | nomer append col\
-  | grep -o -E "(Insecta|Mammalia|Plantae)"\
-  | append_namespace\
-  > plantae_insecta_or_mammalia_image_${PROV_ID_SHORT}.tsv
+function align_names {
+  echo aligning names
+  cat content-name-image_${PROV_ID_SHORT}.tsv.gz\
+    | gunzip\
+    | nomer replace gbif-parse\
+    | nomer append col\
+    | grep -o -E "(Insecta|Mammalia|Plantae)"\
+    | append_namespace\
+    | gzip\
+    > plantae_insecta_or_mammalia_image_${PROV_ID_SHORT}.tsv.gz
+}
 
+generate_versions > ${PROV_VERSIONS}
+select_multimedia
+select_still_images
+select_preserved_specimen
+extract_names_for_images
+align_names
