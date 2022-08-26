@@ -23,4 +23,4 @@ IMAGES_FILE=$(mktemp)
 cat "${SPECIMEN_FILE}" | gunzip\
  | mlr --implicit-csv-header --tsvlite join -s -f "${IMAGES_FILE}" -j 1
 
-rm "${SPECIMEN_FILE}" "${IMAGE_FILE}"
+rm "${SPECIMEN_FILE}" "${IMAGES_FILE}"
