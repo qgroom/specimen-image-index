@@ -10,7 +10,7 @@
 
 source env.sh
 
-/bin/bash extract-still-image-records.sh {1}\
+/bin/bash extract-still-image-records.sh "$1"\
  | jq --raw-output '.["http://www.w3.org/ns/prov#wasDerivedFrom"]'\
  | grep -o -P "hash://sha256/[a-f0-9]{64}"\
  | head -n1
