@@ -95,8 +95,8 @@ function align_names {
   echo aligning names
   cat content-name-image_${PROV_ID_SHORT}.tsv.gz\
     | gunzip\
-    | nomer replace gbif-parse\
-    | nomer append col\
+    | parallel --line-buffer --pipe --roundrobin nomer replace gbif-parse\
+    | parallel --line-buffer --pipe --roundrobin nomer append col\
     | grep -o -E "(Insecta|Mammalia|Plantae)"\
     | append_namespace\
     | gzip\
